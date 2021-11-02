@@ -2,12 +2,14 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   Renderer2,
   ViewChild,
 } from '@angular/core';
-
+import { Note } from 'src/app/shared/models/note.model';
 @Component({
   selector: 'app-note-card',
   templateUrl: './note-card.component.html',
@@ -15,16 +17,18 @@ import {
 })
 export class NoteCardComponent implements OnInit, AfterViewInit {
 
-  @Input() title: string;
-  @Input() body: string;
+  @Input() note: Note;
+  @Input() link: number;
+
+  @Output('delete') deleteEvent: EventEmitter<void> = new EventEmitter();
 
   @ViewChild('truncator') truncator: ElementRef<HTMLElement>;
   @ViewChild('bodyText') bodyText: ElementRef<HTMLElement>;
 
-  constructor(private renderer: Renderer2) { }
+  constructor(
+    private renderer: Renderer2) { }
 
   ngOnInit(): void {
-
   }
 
   ngAfterViewInit(): void {
@@ -41,5 +45,9 @@ export class NoteCardComponent implements OnInit, AfterViewInit {
       // else there is no textoverflow, hide fad eout truncator
       this.renderer.setStyle(this.truncator.nativeElement, 'display', 'none');
     }
+  }
+
+  onDelete(): void {
+    this.deleteEvent.emit();
   }
 }

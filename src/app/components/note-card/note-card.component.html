@@ -1,13 +1,13 @@
 <div #container class="note-card-container">
-  <div class="note-card-content">
-    <h1 class="note-card-title">{{ title }}</h1>
+  <div class="note-card-content" [routerLink]="link.toString()">
+    <h1 class="note-card-title">{{ note.title }}</h1>
 
     <div #bodyText class="note-card-body">
-      <p>{{ body }}</p>
+      <p>{{ note.body }}</p>
 
       <div #truncator class="fade-out-truncation"></div>
     </div>
   </div>
 
-  <div class="dlt-btn"></div>
+  <div class="dlt-btn" (click)="onDelete()"></div>
 </div>

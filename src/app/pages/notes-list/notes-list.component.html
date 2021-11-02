@@ -10,7 +10,10 @@
     </div>
   </div>
 
-  <div class="notes-list">
-    <app-note-card [title]="title" [body]="body"></app-note-card>
+  <div *ngIf="notes && notes.length > 0" class="notes-list">
+    <app-note-card *ngFor="let note of notes; index as i" [note]="note" [link]="i" (delete)="onDelete(i)">
+    </app-note-card>
   </div>
+
+  <button class="button floating-add-button is-primary" routerLink="new">+ Add</button>
 </div>
