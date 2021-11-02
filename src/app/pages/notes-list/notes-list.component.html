@@ -10,8 +10,8 @@
     </div>
   </div>
 
-  <div *ngIf="notes && notes.length > 0" class="notes-list">
-    <app-note-card *ngFor="let note of notes; index as i" [note]="note" [link]="i" (delete)="onDelete(i)">
+  <div *ngIf="notes && notes.length > 0" class="notes-list" [@listAnim]>
+    <app-note-card *ngFor="let note of notes; index as i" [note]="note" [link]="i" (delete)="onDelete(i)" [@itemAnim]>
     </app-note-card>
   </div>
 
