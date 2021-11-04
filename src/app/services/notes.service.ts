@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Utils } from '../helper/utils.model';
-import { Note } from '../models/note.model';
+import { Utils } from '../shared/helper/utils.model';
+import { Note } from '../shared/models/note.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,8 +32,8 @@ export class NotesService {
     return note.id;
   }
 
-  update(id: number, model: Note): number {
-    const note = this.get(id);
+  update(model: Note): number {
+    const note = this.get(model.id);
 
     if (!note)
       return 0;
@@ -46,6 +46,16 @@ export class NotesService {
 
   delete(id: number): void {
     this.notes = this.notes.filter(n => n.id !== id);
+  }
+
+  createNewNote(): Note {
+    let note = new Note();
+
+    note.id = 0;
+    note.title = '';
+    note.body = '';
+
+    return note;
   }
 
 }

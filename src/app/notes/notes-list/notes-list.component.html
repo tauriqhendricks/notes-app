@@ -11,9 +11,9 @@
   </div>
 
   <div *ngIf="filteredNotes && filteredNotes.length > 0" class="notes-list" [@listAnim]>
-    <app-note-card *ngFor="let note of filteredNotes" [note]="note" (delete)="onDelete(note.id)" [@itemAnim]>
-    </app-note-card>
+    <app-notes-card *ngFor="let note of filteredNotes" [note]="note" (delete)="onDelete(note.id)" [@itemAnim]>
+    </app-notes-card>
   </div>
 
-  <button class="button floating-add-button is-primary" routerLink="new">+ Add</button>
+  <button class="button floating-add-button is-primary" routerLink="0">+ Add</button>
 </div>

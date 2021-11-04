@@ -11,11 +11,11 @@ import {
 } from '@angular/core';
 import { Note } from 'src/app/shared/models/note.model';
 @Component({
-  selector: 'app-note-card',
-  templateUrl: './note-card.component.html',
-  styleUrls: ['./note-card.component.scss'],
+  selector: 'app-notes-card',
+  templateUrl: './notes-card.component.html',
+  styleUrls: ['./notes-card.component.scss'],
 })
-export class NoteCardComponent implements OnInit, AfterViewInit {
+export class NotesCardComponent implements OnInit, AfterViewInit {
 
   @Input() note: Note;
 

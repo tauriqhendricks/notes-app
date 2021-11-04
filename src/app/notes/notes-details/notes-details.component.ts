@@ -1,19 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Note } from 'src/app/shared/models/note.model';
-import { NotesService } from 'src/app/shared/services/notes.service';
+import { NotesService } from 'src/app/services/notes.service';
 
 @Component({
-  selector: 'app-note-details',
-  templateUrl: './note-details.component.html',
-  styleUrls: ['./note-details.component.scss'],
+  selector: 'app-notes-details',
+  templateUrl: './notes-details.component.html',
+  styleUrls: ['./notes-details.component.scss'],
 })
-export class NoteDetailsComponent implements OnInit {
+export class NotesDetailsComponent implements OnInit {
 
   note: Note | undefined;
-  noteId: number;
-  isNew: boolean;
 
   constructor(
     private notesService: NotesService,
@@ -22,20 +20,15 @@ export class NoteDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      if (!params.id) {
-        this.isNew = true;
-        this.note = new Note();
-
+      if (params.id == 0) {
+        this.note = this.notesService.createNewNote();
         return
       }
 
       this.note = this.notesService.get(+params.id)
 
       if (!this.note)
-        this.router.navigateByUrl('/');
-
-      this.noteId = params.id;
-      this.isNew = false
+        this.router.navigateByUrl('notes');
     });
 
     // this.route.paramMap.subscribe((params: ParamMap) => {
@@ -58,26 +51,27 @@ export class NoteDetailsComponent implements OnInit {
   // }
 
   onCancel(): void {
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('notes');
   }
 
   onSubmit(form: NgForm): void {
-    const note = this.mapNote(form);
+    this.note = this.mapNote(form);
 
-    if (this.isNew) {
+    if (this.note.id === 0) {
       // create
-      this.notesService.add(note);
+      this.notesService.add(this.note);
     } else {
       // update
-      this.notesService.update(this.noteId, note);
+      this.notesService.update(this.note);
     }
 
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('notes');
   }
 
   mapNote(form: NgForm): Note {
     let note: Note = new Note();
 
+    note.id = this.note.id;
     note.title = form.value.title;
     note.body = form.value.body;
 

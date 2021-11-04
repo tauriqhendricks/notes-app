@@ -1,7 +1,7 @@
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Note } from 'src/app/shared/models/note.model';
-import { NotesService } from 'src/app/shared/services/notes.service';
+import { NotesService } from 'src/app/services/notes.service';
 
 @Component({
   selector: 'app-notes-list',
