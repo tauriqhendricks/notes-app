@@ -1,5 +1,5 @@
 <div #container class="note-card-container">
-  <div class="note-card-content" [routerLink]="link.toString()">
+  <div class="note-card-content" [routerLink]="[note.id]">
     <h1 class="note-card-title">{{ note.title }}</h1>
 
     <div #bodyText class="note-card-body">

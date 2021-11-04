@@ -18,7 +18,6 @@ import { Note } from 'src/app/shared/models/note.model';
 export class NoteCardComponent implements OnInit, AfterViewInit {
 
   @Input() note: Note;
-  @Input() link: number;
 
   @Output('delete') deleteEvent: EventEmitter<void> = new EventEmitter();
 

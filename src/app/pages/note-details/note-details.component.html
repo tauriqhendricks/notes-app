@@ -1,4 +1,4 @@
-<div class="form-container">
+<div *ngIf="note" class="form-container">
   <form #noteForm="ngForm" (ngSubmit)="onSubmit(noteForm)">
     <div class="field">
       <label class="label" for="title">Title</label>

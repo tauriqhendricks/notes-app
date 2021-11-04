@@ -11,7 +11,7 @@ import { NotesService } from 'src/app/shared/services/notes.service';
 })
 export class NoteDetailsComponent implements OnInit {
 
-  note: Note;
+  note: Note | undefined;
   noteId: number;
   isNew: boolean;
 
@@ -29,7 +29,11 @@ export class NoteDetailsComponent implements OnInit {
         return
       }
 
-      this.note = this.notesService.get(params.id)
+      this.note = this.notesService.get(+params.id)
+
+      if (!this.note)
+        this.router.navigateByUrl('/');
+
       this.noteId = params.id;
       this.isNew = false
     });
