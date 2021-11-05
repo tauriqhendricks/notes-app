@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Note } from 'src/app/shared/models/note.model';
+import { Note } from 'src/app/shared/models/notes/note.model';
 import { NotesService } from 'src/app/services/notes.service';
 
 @Component({

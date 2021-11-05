@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Utils } from '../shared/helper/utils.model';
-import { Note } from '../shared/models/note.model';
+import { Note } from '../shared/models/notes/note.model';
 
 @Injectable({
   providedIn: 'root'

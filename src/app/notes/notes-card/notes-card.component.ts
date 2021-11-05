@@ -9,7 +9,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { Note } from 'src/app/shared/models/note.model';
+import { Note } from 'src/app/shared/models/notes/note.model';
 @Component({
   selector: 'app-notes-card',
   templateUrl: './notes-card.component.html',
