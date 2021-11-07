@@ -1,1 +1,43 @@
-<p>login works!</p>
+<section class="main-container">
+
+   <h1 class="is-size-3">Login</h1>
+
+   <div *ngIf="isLoading" class="mt-4">
+      <progress class="progress is-small is-primary" max="100">15%</progress>
+   </div>
+
+   <form *ngIf="!isLoading && form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="mt-4">
+      <div class="field">
+         <label class="label" for="email">Email</label>
+         <div [ngClass]="isInvalid('email') ? 'control has-icons-right' : 'control'">
+            <input [ngClass]="isInvalid('email') ? 'input is-danger' : 'input'" id="email" type="text"
+               placeholder="e.g. alexsmith@gmail.com" formControlName="email">
+            <span *ngIf="isInvalid('email')" class="icon is-small is-right">
+               <i class="fas fa-exclamation-triangle"></i>
+            </span>
+         </div>
+         <p *ngIf="!isInvalid('email')" class="help">Please enter a valid email.</p>
+         <p *ngIf="isInvalidError('email', 'email')" class="help is-danger">Email is invalid.</p>
+         <p *ngIf="isInvalidError('email', 'required')" class="help is-danger">Email is required.</p>
+      </div>
+
+      <div class="field">
+         <label class="label" for="password">Password</label>
+         <div class="control has-icons-right">
+            <input [ngClass]="isInvalid('password') ? 'input is-danger' : 'input'" id="password" type="password"
+               formControlName="password">
+            <span *ngIf="isInvalid('password')" class="icon is-small is-right">
+               <i class="fas fa-exclamation-triangle"></i>
+            </span>
+         </div>
+         <p *ngIf="!isInvalid('password')" class="help">Please enter your password.</p>
+         <p *ngIf="isInvalid('password')" class="help is-danger">Password is required.</p>
+      </div>
+
+      <div class="field mt-4">
+         <div class="control">
+            <button class="button is-primary" type="submit">Submit</button>
+         </div>
+      </div>
+   </form>
+</section>

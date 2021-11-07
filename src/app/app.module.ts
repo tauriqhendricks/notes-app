@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
+import { AuthModule } from './auth/auth.module';
 import { LayoutModule } from './layout/layout.module';
 import { WelcomeComponent } from './welcome/welcome.component';
 
@@ -16,6 +17,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
   ],
   imports: [
     BrowserModule,
+    AuthModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     LayoutModule

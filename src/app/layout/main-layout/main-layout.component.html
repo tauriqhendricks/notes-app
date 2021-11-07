@@ -1,6 +1,11 @@
 <div class="layout-box">
     <div class="top-bar">
-        <h1>My Notes</h1>
+        <a class="h1" routerLink="/notes">My Notes</a>
+        <div class="buttons-container">
+            <a *ngIf="isAuth" class="link" (click)="onLogout()">Logout</a>
+            <a *ngIf="!isAuth" class="link" routerLink="/login">Login</a>
+            <a *ngIf="!isAuth" class="link ml-3" routerLink="/signup">Sign Up</a>
+        </div>
     </div>
 
     <div class="page-content">
