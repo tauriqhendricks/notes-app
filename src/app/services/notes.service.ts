@@ -46,7 +46,7 @@ export class NotesService {
           this.notesChanged.next(null);
           this.uiService.stopLoading();
 
-          this.alertify.error('Error while retrieving notes!!');
+          // this.alertify.error('Error while retrieving notes!!');
         }));
   }
 
@@ -70,11 +70,9 @@ export class NotesService {
 
             this.alertify.error('Note does not exist!!');
             this.router.navigateByUrl('notes');
-          } else {
-            // console.log(note);
-
+          } else
             this.selectedNoteState.next(note);
-          }
+
           this.uiService.stopLoading();
         });
   }
