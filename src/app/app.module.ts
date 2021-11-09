@@ -6,16 +6,19 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { LayoutModule } from './layout/layout.module';
-import { WelcomeComponent } from './welcome/welcome.component';
 
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { environment } from 'src/environments/environment';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    WelcomeComponent
+    AppComponent
   ],
   imports: [
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     BrowserModule,
     AuthModule,
     AppRoutingModule,

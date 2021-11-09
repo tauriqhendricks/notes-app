@@ -7,7 +7,6 @@ import { NotesListComponent } from './notes-list/notes-list.component';
 import { NotesRoutingModule } from './notes-routing.module';
 
 
-
 @NgModule({
   declarations: [
     NotesListComponent,

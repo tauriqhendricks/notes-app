@@ -1,4 +1,8 @@
-<div class="main-container">
+<section *ngIf="isLoading" class="main-container mt-4">
+  <progress class="progress is-small is-primary" max="100">15%</progress>
+</section>
+
+<section *ngIf="!isLoading" class="main-container">
   <div class="search-bar-container">
     <div class="field">
       <p class="control has-icons-left">
@@ -16,4 +20,4 @@
   </div>
 
   <button class="button floating-add-button is-primary" routerLink="0">+ Add</button>
-</div>
+</section>

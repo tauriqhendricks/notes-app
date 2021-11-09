@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { AuthData } from '../shared/models/auth/auth.mode';
-
+import { BehaviorSubject } from 'rxjs';
+import { AuthData } from '../shared/models/auth/auth.model';
+import { AlertifyService } from './alertify.service';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { NotesService } from './notes.service';
+import { UiService } from './ui.service';
 
 
 @Injectable({
@@ -10,34 +13,74 @@ import { AuthData } from '../shared/models/auth/auth.mode';
 })
 export class AuthService {
 
-  private user: AuthData;
-  isAuthState: Subject<boolean> = new Subject();
+  userIdState: BehaviorSubject<string> = new BehaviorSubject('');
+  isAuthState: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private alertify: AlertifyService,
+    private afAuth: AngularFireAuth,
+    private noteService: NotesService,
+    private uiService: UiService
+  ) { }
+
+  initAuthListener(): void {
+    this.afAuth.authState
+      .subscribe(user => {
+        if (!user) {
+          this.noteService.cancelSubs();
+
+          this.isAuthState.next(false);
+          this.userIdState.next('');
+
+          this.router.navigateByUrl('login');
+          return;
+        }
+
+        this.isAuthState.next(true);
+        this.userIdState.next(user.uid);
+
+        this.router.navigateByUrl('notes');
+      })
+  }
 
   register(user: AuthData): void {
-    this.user = user;
+    this.uiService.startLoading()
 
-    this.isAuthState.next(true);
-    this.router.navigateByUrl('notes');
+    this.afAuth
+      .createUserWithEmailAndPassword(user.email, user.password)
+      .then(result => {
+        this.uiService.stopLoading()
+        this.alertify.success('Registered user successfully!!');
+      })
+      .catch(err => {
+        this.uiService.stopLoading()
+        this.alertify.error('Error when trying to register user!!');
+      });
   }
 
   login(user: AuthData): void {
-    this.user = user;
+    this.uiService.startLoading()
 
-    this.isAuthState.next(true);
-    this.router.navigateByUrl('notes');
+    this.afAuth
+      .signInWithEmailAndPassword(user.email, user.password)
+      .then(result => {
+        this.uiService.stopLoading()
+        this.alertify.success('Logged in successfully!!');
+      })
+      .catch(err => {
+        this.uiService.stopLoading()
+        this.alertify.error('Invalid email or password!!');
+      });
   }
 
   logout(): void {
-    this.user = null;
+    this.uiService.startLoading()
 
-    this.isAuthState.next(false);
-    this.router.navigateByUrl('login');
-  }
+    this.afAuth.signOut();
 
-  isAuth(): boolean {
-    return this.user != null;
+    this.uiService.stopLoading()
+    this.alertify.success('Logged out successfully!!');
   }
 
 }

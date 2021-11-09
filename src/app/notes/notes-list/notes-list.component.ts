@@ -1,7 +1,12 @@
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Note } from 'src/app/shared/models/notes/note.model';
 import { NotesService } from 'src/app/services/notes.service';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { AuthService } from 'src/app/services/auth.service';
+import { UiService } from 'src/app/services/ui.service';
+
 
 @Component({
   selector: 'app-notes-list',
@@ -81,27 +86,43 @@ import { NotesService } from 'src/app/services/notes.service';
     ])
   ]
 })
-export class NotesListComponent implements OnInit {
+export class NotesListComponent implements OnInit, OnDestroy {
 
   notes: Note[] = [];
   filteredNotes: Note[] = [];
 
+  isLoading: boolean = false;
+  sub: Subscription;
+
   @ViewChild('filterInput') filterInputElRef: ElementRef<HTMLInputElement>;
 
-  constructor(private notesService: NotesService) { }
+  constructor(
+    private notesService: NotesService,
+    private authService: AuthService,
+    private uiService: UiService) { }
 
   ngOnInit(): void {
+    this.sub = this.uiService.isLoadingState.subscribe(
+      isLoading => this.isLoading = isLoading
+    );
+
     this.getNotes();
   }
 
   getNotes(): void {
-    this.notes = this.notesService.getAll();
-    this.filteredNotes = this.notes;
+    this.notesService.notesChanged
+      .pipe(take(1))
+      .subscribe((notes: Note[]) => {
+        this.notes = notes;
+        this.filteredNotes = this.notes;
 
-    this.onFilter();
+        this.onFilter();
+      });
+
+    this.notesService.getAll(this.authService.userIdState.getValue());
   }
 
-  onDelete(id: number): void {
+  onDelete(id: string): void {
     this.notesService.delete(id);
     this.getNotes();
   }
@@ -129,9 +150,6 @@ export class NotesListComponent implements OnInit {
     // we don't want to display the same note multiple times
     const uniqueResults = this.removeDuplicate<Note>(allResults);
     this.filteredNotes = uniqueResults;
-
-    // sort by relevence not working as intended
-    // this.sortByRelevency(uniqueResults);
   }
 
   removeDuplicate<T>(list: T[]): T[] {
@@ -157,29 +175,9 @@ export class NotesListComponent implements OnInit {
     return releventNotes;
   }
 
-  sortByRelevency(searchResults: Note[]) {
-    // calculate relevency of a note based of the number of times
-    // it appears in the search results
-    //let noteCountObj: Foo = {};// format - key:value => NoteId:number (note object:count)
-    let noteCountObj: Object = {};
-
-    searchResults.forEach(note => {
-      let noteId = note.id;
-
-      if (noteCountObj[noteId]) {
-        noteCountObj[noteId] += 1;
-      } else {
-        noteCountObj[noteId] = 1;
-      }
-    });
-
-    this.filteredNotes = this.filteredNotes.sort((a, b) => {
-      const aCount = noteCountObj[a.id];
-      const bCount = noteCountObj[b.id];
-
-      return bCount - aCount;
-    });
-
+  ngOnDestroy(): void {
+    if (this.sub)
+      this.sub.unsubscribe;
   }
 
 }

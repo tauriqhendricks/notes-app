@@ -1,40 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
+import { UiService } from 'src/app/services/ui.service';
 import { Utils } from 'src/app/shared/helper/utils.model';
-import { AuthData } from 'src/app/shared/models/auth/auth.mode';
+import { AuthData } from 'src/app/shared/models/auth/auth.model';
+
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent implements OnInit {
-
-  // th:note add notification
+export class SignupComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
   user: AuthData;
 
-  isLoading: boolean;
+  isLoading: boolean = false;
+  sub: Subscription;
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private uiService: UiService) { }
 
   ngOnInit(): void {
-    this.isLoading = true;
+    this.sub = this.uiService.isLoadingState.subscribe(
+      isLoading => this.isLoading = isLoading
+    );
 
     this.user = new AuthData();
     this.createForm();
-
-    this.isLoading = false;
   }
 
   createForm(): void {
     this.form = this.fb.group({
       email: [this.user.email || '', [Validators.required, Validators.email]],
-      password: [this.user.password || '', Validators.required]
+      password: [this.user.password || '', [Validators.required, Validators.minLength(6)]]
     });
   }
 
@@ -45,28 +48,20 @@ export class SignupComponent implements OnInit {
     if (this.form.invalid)
       return;
 
-    this.isLoading = true;
-
     this.user = this.mapAuthDataFromForm();
     this.authService.register(this.user);
-
-    this.isLoading = false;
   }
 
   trimStrings(): void {
     const emailControl = this.form.get('email');
-
     emailControl?.setValue(emailControl?.value.toString().trim());
   }
 
   mapAuthDataFromForm(): AuthData {
-    const emailControl = this.form.get('email');
-    const passwordControl = this.form.get('password');
-
     const authData: AuthData = {
 
-      email: emailControl.value.toString(),
-      password: passwordControl.value.toString()
+      email: this.form.get('email').value.toString(),
+      password: this.form.get('password').value.toString()
 
     }
 
@@ -79,6 +74,11 @@ export class SignupComponent implements OnInit {
 
   isInvalidError(controlName: string, error: string): boolean {
     return Utils.isFormControlInvalidError(controlName, error, this.form);
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub)
+      this.sub.unsubscribe;
   }
 
 }

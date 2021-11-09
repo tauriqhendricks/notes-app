@@ -1,80 +1,116 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Note } from 'src/app/shared/models/notes/note.model';
 import { NotesService } from 'src/app/services/notes.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { Subscription } from 'rxjs';
+import { UiService } from 'src/app/services/ui.service';
+import { Utils } from 'src/app/shared/helper/utils.model';
+
 
 @Component({
   selector: 'app-notes-details',
   templateUrl: './notes-details.component.html',
   styleUrls: ['./notes-details.component.scss'],
 })
-export class NotesDetailsComponent implements OnInit {
+export class NotesDetailsComponent implements OnInit, OnDestroy {
 
   note: Note | undefined;
+  form: FormGroup;
+
+  isLoading: boolean = false;
+  sub: Subscription;
 
   constructor(
     private notesService: NotesService,
-    private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private uiService: UiService,
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      if (params.id == 0) {
-        this.note = this.notesService.createNewNote();
-        return
+    this.sub = this.uiService.isLoadingState.subscribe(
+      isLoading => this.isLoading = isLoading
+    );
+
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      if (params) {
+        const idStr = params.get('id');
+
+        this.getNote(idStr);
       }
-
-      this.note = this.notesService.get(+params.id)
-
-      if (!this.note)
-        this.router.navigateByUrl('notes');
     });
-
-    // this.route.paramMap.subscribe((params: ParamMap) => {
-    //   if (params) {
-    //     const idStr = params.get('id');
-    //     const id = idStr ? +idStr : 0;
-
-    //     this.getNote(id);
-    //   }
-    // });
   }
 
-  // getNote(id: number): void {
-  //   if (id === 0) {
-  //     this.note = new Note();
-  //     return;
-  //   }
+  getNote(id: string): void {
+    if (id === '0') {
+      this.note = this.notesService.createNewNote();
+      this.note.userId = this.authService.userIdState.getValue()
 
-  //   this.note = this.notesService.get(id);
-  // }
+      this.createForm();
+    }
+    else {
+      this.notesService.get(id)
 
-  onCancel(): void {
-    this.router.navigateByUrl('notes');
+      this.notesService.selectedNoteState
+        .subscribe(note => {
+          if (note) {
+            this.note = note;
+            this.createForm();
+          }
+        });
+    }
   }
 
-  onSubmit(form: NgForm): void {
-    this.note = this.mapNote(form);
+  createForm(): void {
+    this.form = this.fb.group({
+      title: [this.note.title, Validators.required],
+      body: this.note.body
+    })
+  }
 
-    if (this.note.id === 0) {
+  onSubmit(): void {
+    this.trimStrings();
+    this.form.markAllAsTouched();
+
+    this.note = this.mapNoteFromForm();
+
+    if (this.note.id === '0') {
       // create
       this.notesService.add(this.note);
     } else {
       // update
       this.notesService.update(this.note);
     }
-
-    this.router.navigateByUrl('notes');
   }
 
-  mapNote(form: NgForm): Note {
+  trimStrings(): void {
+    const titleControl = this.form.get('title');
+    const bodyControl = this.form.get('body');
+
+    titleControl?.setValue(titleControl?.value.toString().trim());
+    bodyControl?.setValue(bodyControl?.value.toString().trim());
+  }
+
+  mapNoteFromForm(): Note {
     let note: Note = new Note();
 
     note.id = this.note.id;
-    note.title = form.value.title;
-    note.body = form.value.body;
+    note.title = this.form.get('title').value.toString();
+    note.body = this.form.get('body').value.toString();
+    note.userId = this.note.userId;
 
     return note;
   }
+
+  ngOnDestroy(): void {
+    if (this.sub)
+      this.sub.unsubscribe;
+  }
+
+  isInvalid(controlName: string): boolean {
+    return Utils.isFormControlInvalid(controlName, this.form);
+  }
+
 }

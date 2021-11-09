@@ -1,6 +1,7 @@
 <section class="main-container">
-
-   <h1 class="is-size-3">Login</h1>
+   <div>
+      <h1 class="is-size-3">Login <span class="is-size-5">to keep your notes up to date!</span></h1>
+   </div>
 
    <div *ngIf="isLoading" class="mt-4">
       <progress class="progress is-small is-primary" max="100">15%</progress>
@@ -10,28 +11,31 @@
       <div class="field">
          <label class="label" for="email">Email</label>
          <div [ngClass]="isInvalid('email') ? 'control has-icons-right' : 'control'">
-            <input [ngClass]="isInvalid('email') ? 'input is-danger' : 'input'" id="email" type="text"
+            <input [ngClass]="isInvalid('email') ? 'input bc is-danger' : 'input bc'" id="email" type="text"
                placeholder="e.g. alexsmith@gmail.com" formControlName="email">
             <span *ngIf="isInvalid('email')" class="icon is-small is-right">
                <i class="fas fa-exclamation-triangle"></i>
             </span>
          </div>
-         <p *ngIf="!isInvalid('email')" class="help">Please enter a valid email.</p>
-         <p *ngIf="isInvalidError('email', 'email')" class="help is-danger">Email is invalid.</p>
-         <p *ngIf="isInvalidError('email', 'required')" class="help is-danger">Email is required.</p>
+         <div class="is-flex is-justify-content-space-between">
+            <p class="help">Please enter a valid email.</p>
+            <p *ngIf="isInvalidError('email', 'required')" class="help is-danger">Email is required.</p>
+         </div>
       </div>
 
       <div class="field">
          <label class="label" for="password">Password</label>
          <div class="control has-icons-right">
-            <input [ngClass]="isInvalid('password') ? 'input is-danger' : 'input'" id="password" type="password"
+            <input [ngClass]="isInvalid('password') ? 'input bc is-danger' : 'input bc'" id="password" type="password"
                formControlName="password">
             <span *ngIf="isInvalid('password')" class="icon is-small is-right">
                <i class="fas fa-exclamation-triangle"></i>
             </span>
          </div>
-         <p *ngIf="!isInvalid('password')" class="help">Please enter your password.</p>
-         <p *ngIf="isInvalid('password')" class="help is-danger">Password is required.</p>
+         <div class="is-flex is-justify-content-space-between">
+            <p class="help">Please enter your password.</p>
+            <p *ngIf="isInvalid('password')" class="help is-danger">Password is required.</p>
+         </div>
       </div>
 
       <div class="field mt-4">

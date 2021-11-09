@@ -1,9 +1,22 @@
 <div *ngIf="note" class="form-container">
-  <form #noteForm="ngForm" (ngSubmit)="onSubmit(noteForm)">
+
+  <div *ngIf="isLoading" class="mt-4">
+    <progress class="progress is-small is-primary" max="100">15%</progress>
+  </div>
+
+  <form *ngIf="!isLoading && form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
     <div class="field">
       <label class="label" for="title">Title</label>
-      <div class="control">
-        <input class="input bc" type="text" id="title" name="title" [ngModel]="note.title" required />
+      <div [ngClass]="isInvalid('title') ? 'control has-icons-right' : 'control'">
+        <input [ngClass]="isInvalid('title') ? 'input bc is-danger' : 'input bc'" type="text" id="title"
+          formControlName="title" />
+        <span *ngIf="isInvalid('title')" class="icon is-small is-right">
+          <i class="fas fa-exclamation-triangle"></i>
+        </span>
+      </div>
+      <div class="is-flex is-justify-content-space-between">
+        <p class="help">Please enter a title for the note.</p>
+        <p *ngIf="isInvalid('title')" class="help is-danger">Title is required.</p>
       </div>
     </div>
 
@@ -12,16 +25,17 @@
     <div class="field">
       <label class="label" for="body">Body</label>
       <div class="control">
-        <textarea class="textarea bc" name="body" id="body" [ngModel]="note.body"></textarea>
+        <textarea class="textarea bc" id="body" formControlName="body"></textarea>
       </div>
+      <p class="help">Please enter a body for the note.</p>
     </div>
 
     <div class="field is-grouped is-pulled-right">
       <div class="control">
-        <button class="button is-text" type="button" (click)="onCancel()">Cancel</button>
+        <button class="button is-text" type="button" routerLink="/notes">Cancel</button>
       </div>
       <div class="control">
-        <button class="button is-success" type="submit" [disabled]="noteForm.invalid">
+        <button class="button is-success" type="submit">
           Save
         </button>
       </div>
