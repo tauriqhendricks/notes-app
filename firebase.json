@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/notes-frontend",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
