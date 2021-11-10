@@ -34,6 +34,7 @@ export class AuthService {
           this.userIdState.next('');
 
           this.router.navigateByUrl('login');
+          this.uiService.stopLoading()
           return;
         }
 
@@ -41,6 +42,7 @@ export class AuthService {
         this.userIdState.next(user.uid);
 
         this.router.navigateByUrl('notes');
+        this.uiService.stopLoading()
       })
   }
 
@@ -50,11 +52,9 @@ export class AuthService {
     this.afAuth
       .createUserWithEmailAndPassword(user.email, user.password)
       .then(result => {
-        this.uiService.stopLoading()
         this.alertify.success('Registered user successfully!!');
       })
       .catch(err => {
-        this.uiService.stopLoading()
         this.alertify.error('Error when trying to register user!!');
       });
   }
@@ -65,11 +65,9 @@ export class AuthService {
     this.afAuth
       .signInWithEmailAndPassword(user.email, user.password)
       .then(result => {
-        this.uiService.stopLoading()
         this.alertify.success('Logged in successfully!!');
       })
       .catch(err => {
-        this.uiService.stopLoading()
         this.alertify.error('Invalid email or password!!');
       });
   }

@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
+import { NotesListComponent } from './notes/notes-list/notes-list.component';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent },
-  { path: 'notes', loadChildren: () => import('./notes/notes.module').then(m => m.NotesModule), canLoad: [AuthGuard] },
-  { path: '**', component: LoginComponent }
+  { path: '', component: NotesListComponent, canActivate: [AuthGuard] },
+  { path: '**', component: NotesListComponent, canActivate: [AuthGuard] }
 ]
 
 

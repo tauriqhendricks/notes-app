@@ -6,8 +6,8 @@ import { NotesDetailsComponent } from './notes-details/notes-details.component';
 import { NotesListComponent } from './notes-list/notes-list.component';
 
 const routes: Routes = [
-  { path: '', component: NotesListComponent, canActivate: [AuthGuard] },
-  { path: ':id', component: NotesDetailsComponent }
+  { path: 'notes', component: NotesListComponent, canActivate: [AuthGuard] },
+  { path: 'notes/:id', component: NotesDetailsComponent, canActivate: [AuthGuard] }
 ]
 
 
