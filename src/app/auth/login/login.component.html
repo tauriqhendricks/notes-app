@@ -19,7 +19,8 @@
          </div>
          <div class="is-flex is-justify-content-space-between">
             <p class="help">Please enter a valid email.</p>
-            <p *ngIf="isInvalidError('email', 'required')" class="help is-danger">Email is required.</p>
+            <p *ngIf="isInvalidError('email', 'required')" class="help is-danger d-view">Email is required.</p>
+            <p *ngIf="isInvalidError('email', 'required')" class="help is-danger m-view">Required</p>
          </div>
       </div>
 
@@ -34,7 +35,8 @@
          </div>
          <div class="is-flex is-justify-content-space-between">
             <p class="help">Please enter your password.</p>
-            <p *ngIf="isInvalid('password')" class="help is-danger">Password is required.</p>
+            <p *ngIf="isInvalid('password')" class="help is-danger d-view">Password is required.</p>
+            <p *ngIf="isInvalid('password')" class="help is-danger m-view">Required</p>
          </div>
       </div>
 

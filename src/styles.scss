@@ -1,4 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import './main-styles.scss';
-@import '../node_modules/bulma/bulma.sass';
+@import "./main-styles.scss";
+@import "../node_modules/bulma/bulma.sass";
+
+.d-view {
+  display: inline-block;
+}
+
+.m-view {
+  display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .d-view {
+    display: none;
+  }
+
+  .m-view {
+    display: inline-block;
+  }
+}
