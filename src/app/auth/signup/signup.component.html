@@ -1,13 +1,9 @@
 <section class="main-container">
    <div>
-      <h1 class="is-size-3">Sign Up <span class="is-size-5">to start saving your notes!</span></h1>
+      <h1 class="size-1">Sign Up <span class="size-2">to start saving your notes!</span></h1>
    </div>
 
-   <div *ngIf="isLoading" class="mt-4">
-      <progress class="progress is-small is-primary" max="100">15%</progress>
-   </div>
-
-   <form *ngIf="!isLoading && form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="mt-4">
+   <form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="mt-4">
       <div class="field">
          <label class="label" for="email">Email</label>
          <div [ngClass]="isInvalid('email') ? 'control has-icons-right' : 'control'">
@@ -19,8 +15,10 @@
          </div>
          <div class="is-flex is-justify-content-space-between">
             <p class="help">Please enter a valid email.</p>
-            <p *ngIf="isInvalidError('email', 'email')" class="help is-danger">Email is invalid.</p>
-            <p *ngIf="isInvalidError('email', 'required')" class="help is-danger">Email is required.</p>
+            <p *ngIf="isInvalidError('email', 'email')" class="help is-danger d-view">Email is invalid.</p>
+            <p *ngIf="isInvalidError('email', 'email')" class="help is-danger m-view">Invalid</p>
+            <p *ngIf="isInvalidError('email', 'required')" class="help is-danger d-view">Email is required.</p>
+            <p *ngIf="isInvalidError('email', 'required')" class="help is-danger m-view">Required</p>
          </div>
       </div>
 
@@ -35,9 +33,11 @@
          </div>
          <div class="is-flex is-justify-content-space-between">
             <p class="help">Please enter your password.</p>
-            <p *ngIf="isInvalidError('password', 'required')" class="help is-danger">Password is required.</p>
+            <p *ngIf="isInvalidError('password', 'required')" class="help is-danger d-view">Password is required.</p>
+            <p *ngIf="isInvalidError('password', 'required')" class="help is-danger m-view">Required</p>
             <p *ngIf="isInvalidError('password', 'minlength')" class="help is-danger">
-               min length: {{this.form.get('password').value.length}}/6</p>
+               min length: {{this.form.get('password').value.length}}/6
+            </p>
          </div>
       </div>
 

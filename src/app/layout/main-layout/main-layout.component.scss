@@ -27,8 +27,7 @@
   justify-content: space-between;
   align-items: center;
 
-  padding-left: 100px;
-  padding-right: 100px;
+  padding: 0 100px 0 100px;
 
   .h1 {
     color: white;
@@ -47,4 +46,10 @@
 .link:hover {
   font-size: 20px;
   font-weight: 600;
+}
+
+@media only screen and (max-width: 768px) {
+  .top-bar {
+    padding: 0 30px 0 30px;
+  }
 }

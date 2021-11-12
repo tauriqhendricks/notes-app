@@ -74,6 +74,9 @@ export class NotesDetailsComponent implements OnInit, OnDestroy {
     this.trimStrings();
     this.form.markAllAsTouched();
 
+    if (this.form.invalid)
+      return;
+
     this.note = this.mapNoteFromForm();
 
     if (this.note.id === '0') {

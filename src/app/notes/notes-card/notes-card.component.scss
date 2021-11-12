@@ -13,7 +13,7 @@
     cursor: pointer;
     box-shadow: 0 0 0 4px rgba($color: black, $alpha: 0.068);
 
-    .dlt-btn {
+    .d-dlt-btn {
       opacity: 1;
       transform: scale(1);
 
@@ -59,6 +59,22 @@
   }
 }
 
+.d-dlt-btn {
+  opacity: 0; // hide button
+  transform: scale(0.35);
+
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+
+  &:hover {
+    background-color: darken($light-red, 2%);
+  }
+
+  // on click
+  &:active {
+    background-color: darken($light-red, 4%);
+  }
+}
+
 .dlt-btn {
   position: absolute;
   top: 12px;
@@ -73,18 +89,22 @@
   background-position: center;
 
   border-radius: 4px;
+}
 
-  opacity: 0; // hide button
-  transform: scale(0.35);
+.m-dlt-btn {
+  display: none;
+}
 
-  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
-
-  &:hover {
-    background-color: darken($light-red, 2%);
+@media only screen and (max-width: 768px) {
+  .main-container {
+    padding: 30px 30px 0 30px;
   }
 
-  // on click
-  &:active {
-    background-color: darken($light-red, 4%);
+  .m-dlt-btn {
+    display: inline-block;
+  }
+
+  .d-dlt-btn {
+    display: none;
   }
 }
