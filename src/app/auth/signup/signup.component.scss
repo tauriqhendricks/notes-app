@@ -5,5 +5,25 @@
   max-width: 500px;
   margin: auto;
 
-  padding-top: 50px;
+  padding: 50px 0 0 0;
+
+  .size-1 {
+    font-size: 36px;
+  }
+  .size-2 {
+    font-size: 22.5px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .main-container {
+    padding: 30px 30px 0 30px;
+
+    .size-1 {
+      font-size: 27px;
+    }
+    .size-2 {
+      font-size: 18px;
+    }
+  }
 }
