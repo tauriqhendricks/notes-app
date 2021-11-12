@@ -3,11 +3,7 @@
       <h1 class="size-1">Sign Up <span class="size-2">to start saving your notes!</span></h1>
    </div>
 
-   <div *ngIf="isLoading" class="mt-4">
-      <progress class="progress is-small is-primary" max="100">15%</progress>
-   </div>
-
-   <form *ngIf="!isLoading && form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="mt-4">
+   <form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="mt-4">
       <div class="field">
          <label class="label" for="email">Email</label>
          <div [ngClass]="isInvalid('email') ? 'control has-icons-right' : 'control'">

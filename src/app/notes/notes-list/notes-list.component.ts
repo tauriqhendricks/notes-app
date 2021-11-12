@@ -109,7 +109,7 @@ export class NotesListComponent implements OnInit, OnDestroy {
     this.getNotes();
   }
 
-  getNotes(): void {
+  getNotes(fromInit: boolean = true): void {
     this.notesService.notesChanged
       .pipe(take(1))
       .subscribe((notes: Note[]) => {
@@ -119,12 +119,13 @@ export class NotesListComponent implements OnInit, OnDestroy {
         this.onFilter();
       });
 
-    this.notesService.getAll(this.authService.userIdState.getValue());
+    if (fromInit)
+      this.notesService.getAll(this.authService.userIdState.getValue());
   }
 
   onDelete(id: string): void {
     this.notesService.delete(id);
-    this.getNotes();
+    this.getNotes(false);
   }
 
   onFilter(): void {

@@ -47,8 +47,6 @@ export class AuthService {
   }
 
   register(user: AuthData): void {
-    this.uiService.startLoading()
-
     this.afAuth
       .createUserWithEmailAndPassword(user.email, user.password)
       .then(result => {
@@ -60,8 +58,6 @@ export class AuthService {
   }
 
   login(user: AuthData): void {
-    this.uiService.startLoading()
-
     this.afAuth
       .signInWithEmailAndPassword(user.email, user.password)
       .then(result => {

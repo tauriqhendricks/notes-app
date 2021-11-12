@@ -17,19 +17,13 @@ export class SignupComponent implements OnInit, OnDestroy {
   form: FormGroup;
   user: AuthData;
 
-  isLoading: boolean = false;
   sub: Subscription;
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
-    private uiService: UiService) { }
+    private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.sub = this.uiService.isLoadingState.subscribe(
-      isLoading => this.isLoading = isLoading
-    );
-
     this.user = new AuthData();
     this.createForm();
   }
