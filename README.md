@@ -30,7 +30,6 @@ The app allows users to create notes. A user can also update and delete their no
 
 
 ## Built With
-
 This project is built with the following tools:
 * [Angular Web Framework](https://angular.io/)
 * [Visual Studio Code](https://code.visualstudio.com/)
@@ -38,6 +37,7 @@ This project is built with the following tools:
 * [bulma css](https://bulma.io/)
 * [firebase](https://firebase.google.com/)
 * [angularfire](https://github.com/angular/angularfire)
+
 
 ## Future Updates
 * adding a dark/night theme
