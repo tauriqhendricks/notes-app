@@ -34,8 +34,3 @@ This project is built with the following tools:
 * [bulma css](https://bulma.io/)
 * [firebase](https://firebase.google.com/)
 * [angularfire](https://github.com/angular/angularfire)
-
-This project is built in the following languages:
-* HTML
-* CSS
-* TypeScript
