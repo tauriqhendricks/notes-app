@@ -25,6 +25,7 @@ The app allows users to create notes. A user can also update and delete their no
 * the note nedds to have a title in order for it to be saved
 * when a note is created it can then either be updated or deleted
 
+
 ## Built With
 
 This project is built with the following tools:
