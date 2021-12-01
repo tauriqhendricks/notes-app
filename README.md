@@ -11,6 +11,9 @@
     <li>
       <a href="#built-with">Built With</a>
     </li>
+    <li>
+      <a href="#future-updates">Future Updates</a>
+    </li>
   </ol>
 </details>
 
@@ -22,7 +25,7 @@ The app allows users to create notes. A user can also update and delete their no
 ### Steps
 * either signup or login (if you have already signed up)
 * you can then add a note
-* the note nedds to have a title in order for it to be saved
+* the note needs to have a title in order for it to be saved
 * when a note is created it can then either be updated or deleted
 
 
@@ -35,3 +38,7 @@ This project is built with the following tools:
 * [bulma css](https://bulma.io/)
 * [firebase](https://firebase.google.com/)
 * [angularfire](https://github.com/angular/angularfire)
+
+## Future Updates
+* adding a dark/night theme
+
