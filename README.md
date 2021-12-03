@@ -38,6 +38,7 @@ This project is built with the following tools:
 * [firebase](https://firebase.google.com/)
 * [angularfire](https://github.com/angular/angularfire)
 
+### Hosted with FireBase Hosting
 
 ## Future Updates
 * adding a dark/night theme
